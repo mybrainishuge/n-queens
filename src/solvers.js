@@ -17,11 +17,10 @@
 
 window.findNRooksSolution = function(n) {
   var board = new Board({n: n});
-  var rows = board.rows();
-  var solution = rows;
+  var solution = board.rows();
 
-  for (var i = 0; i < rows.length; i++) {
-    for (var j = 0; j < rows.length; j++) {
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
       board.togglePiece(i, j);
       if (board.hasAnyRooksConflicts()) {
         board.togglePiece(i, j);
@@ -37,21 +36,18 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
   var board = new Board({n: n});
-  var rows = board.rows();
 
   var checkRow = function(rowNum) {
-    if (rowNum === rows.length) {
+    if (rowNum === n) {
       solutionCount++;
       return;
     }
-    for (var col = 0; col < rows.length; col++) {
+    for (var col = 0; col < n; col++) {
       board.togglePiece(rowNum, col);
-      if (!board['hasAnyRooksConflicts']()) {
-        checkRow(++rowNum);
-        board.togglePiece(--rowNum, col);
-      } else {
-        board.togglePiece(rowNum, col);
-      }      
+      if (!board.hasAnyRooksConflicts()) {
+        checkRow(rowNum + 1);
+      }
+      board.togglePiece(rowNum, col);
     }
   };
 
@@ -64,16 +60,15 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) {
   var solution = [];
   var board = new Board({n: n});
-  var rows = board.rows();
 
   var checkRow = function(rowNum) {
-    if (rowNum === rows.length) {
-      solution = rows;
+    if (rowNum === n) {
+      solution = board.rows();
       return;
     }
-    for (var col = 0; col < rows.length; col++) {
+    for (var col = 0; col < n; col++) {
       board.togglePiece(rowNum, col);
-      if (!board['hasAnyQueensConflicts']()) {
+      if (!board.hasAnyQueensConflicts()) {
         checkRow(++rowNum);
         if (solution.length > 0) {
           return; 
@@ -86,7 +81,7 @@ window.findNQueensSolution = function(n) {
   };
 
   checkRow(0);
-  solution = rows;
+  solution = board.rows();
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
@@ -95,16 +90,15 @@ window.findNQueensSolution = function(n) {
 window.countNQueensSolutions = function(n) {
   var solutionCount = 0;
   var board = new Board({n: n});
-  var rows = board.rows();
 
   var checkRow = function(rowNum) {
-    if (rowNum === rows.length) {
+    if (rowNum === n) {
       solutionCount++;
       return;
     }
-    for (var col = 0; col < rows.length; col++) {
+    for (var col = 0; col < n; col++) {
       board.togglePiece(rowNum, col);
-      if (!board['hasAnyQueensConflicts']()) {
+      if (!board.hasAnyQueensConflicts()) {
         checkRow(++rowNum);
         board.togglePiece(--rowNum, col);
       } else {
