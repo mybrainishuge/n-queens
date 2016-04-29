@@ -126,14 +126,11 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      var rows = this.rows();
-      var pieces = 0;
+      var boardSize = this.rows().length;
       var conflict = false;
-      var length = -rows.length;
-      var board = this;
       
-      for (var i = length; i < rows.length; i++) {
-        conflict = conflict || board.hasMajorDiagonalConflictAt(i);
+      for (var i = -boardSize; i < boardSize; i++) {
+        conflict = conflict || this.hasMajorDiagonalConflictAt(i);
       }
       return conflict;
     },
@@ -152,13 +149,11 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      var rows = this.rows();
-      var pieces = 0;
       var conflict = false;
-      var length = rows.length * 2;
-      var board = this;
+      var length = this.rows().length * 2;
+
       for (var i = 0; i < length; i++) {
-        conflict = conflict || board.hasMinorDiagonalConflictAt(i);
+        conflict = conflict || this.hasMinorDiagonalConflictAt(i);
       }
       return conflict;
     }

@@ -16,19 +16,19 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = [];
-
   var board = new Board({n: n});
   var rows = board.rows();
+  var solution = rows;
+
   for (var i = 0; i < rows.length; i++) {
     for (var j = 0; j < rows.length; j++) {
       board.togglePiece(i, j);
       if (board.hasAnyRooksConflicts()) {
-        board.togglePiece(i, j); 
-      } 
+        board.togglePiece(i, j);
+      }
     }
-    solution.push(rows[i]);
   }
+
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -38,6 +38,7 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
   var board = new Board({n: n});
   var rows = board.rows();
+
   var checkRow = function(rowNum) {
     if (rowNum === rows.length) {
       solutionCount++;
@@ -45,7 +46,7 @@ window.countNRooksSolutions = function(n) {
     }
     for (var col = 0; col < rows.length; col++) {
       board.togglePiece(rowNum, col);
-      if (!board.hasAnyRooksConflicts()) {
+      if (!board['hasAnyRooksConflicts']()) {
         checkRow(++rowNum);
         board.togglePiece(--rowNum, col);
       } else {
@@ -67,15 +68,15 @@ window.findNQueensSolution = function(n) {
 
   var checkRow = function(rowNum) {
     if (rowNum === rows.length) {
-      solution = solution.concat(rows);
+      solution = rows;
       return;
     }
     for (var col = 0; col < rows.length; col++) {
       board.togglePiece(rowNum, col);
-      if (!board.hasAnyQueensConflicts()) {
+      if (!board['hasAnyQueensConflicts']()) {
         checkRow(++rowNum);
         if (solution.length > 0) {
-          return solution; 
+          return; 
         }
         board.togglePiece(--rowNum, col);
       } else {
@@ -83,11 +84,9 @@ window.findNQueensSolution = function(n) {
       }
     }
   };
-  checkRow(0);
-  if (n === 2 || n === 3) {
-    solution = rows;
-  }
 
+  checkRow(0);
+  solution = rows;
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
@@ -105,7 +104,7 @@ window.countNQueensSolutions = function(n) {
     }
     for (var col = 0; col < rows.length; col++) {
       board.togglePiece(rowNum, col);
-      if (!board.hasAnyQueensConflicts()) {
+      if (!board['hasAnyQueensConflicts']()) {
         checkRow(++rowNum);
         board.togglePiece(--rowNum, col);
       } else {
